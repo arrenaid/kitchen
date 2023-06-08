@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../constans.dart';
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
-  static const String route = "MainScreen";
+
+class BasketScreen extends StatelessWidget {
+  const BasketScreen({Key? key}) : super(key: key);
+  static const String route = "BasketScreen";
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class MainScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Text(
-            'MainScreen',
+            'BasketScreen',
             style: tsHeadline1,
           ),
         ),
