@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 
-import '../screens/basket_screen.dart';
+import '../screens/bag_screen.dart';
 import '../screens/main_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/search_screen.dart';
@@ -14,10 +14,10 @@ class NaviBloc extends Bloc<NaviEvent, NaviState> {
   final int discoverIndex = 1;
 
   NaviBloc()
-      : super(NaviState(1, [
+      : super(NaviState(0, [
     MainScreen(),
     SearchScreen(),
-    BasketScreen(),
+    BagScreen(),
     ProfileScreen()
   ])) {
     on<NaviEvent>(_onNavi);

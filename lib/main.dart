@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen/screens/basket_screen.dart';
+import 'package:kitchen/screens/bag_screen.dart';
 import 'package:kitchen/screens/main_screen.dart';
 import 'package:kitchen/screens/navi_screen.dart';
 import 'package:kitchen/screens/profile_screen.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         MainScreen.route: (context) => const MainScreen(),
         SearchScreen.route: (context) => const SearchScreen(),
-        BasketScreen.route: (context) => const BasketScreen(),
+        BagScreen.route: (context) => const BagScreen(),
         ProfileScreen.route: (context) => const ProfileScreen(),
         NaviScreen.route: (context) => const NaviScreen(),
 
