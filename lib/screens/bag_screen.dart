@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen/widgets/blue_button.dart';
 import 'package:kitchen/widgets/location_upper.dart';
 
 import '../constans.dart';
@@ -24,12 +25,18 @@ class BagScreen extends StatelessWidget {
                 height: 500,
                 child: ListView(
                   children: [
-                    CardBag(name: name, price: price, weight: weight, count: count),
-                    CardBag(name: name, price: price, weight: weight, count: count),
-                    CardBag(name: name, price: price, weight: weight, count: count),
+                    CardBag(
+                        name: name, price: price, weight: weight, count: count),
+                    CardBag(
+                        name: name, price: price, weight: weight, count: count),
+                    CardBag(
+                        name: name, price: price, weight: weight, count: count),
                   ],
                 ),
-              )
+              ),
+              BlueButton(
+                  onTap: () {},
+                  title: 'Оплатить $price ₽'),
             ],
           ),
         ),
@@ -110,7 +117,10 @@ class CardBag extends StatelessWidget {
                           color: Colors.black,
                         )),
                   ),
-                  Text('$count',style: tsSubhead1,),
+                  Text(
+                    '$count',
+                    style: tsSubhead1,
+                  ),
                   SizedBox(
                     width: 33,
                     child: OutlinedButton(

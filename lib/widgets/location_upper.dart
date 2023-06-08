@@ -9,22 +9,25 @@ class LocationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 42,
-      child: Row(
-          children: [
-            SvgPicture.asset(iconPin),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('Санкт-Петербург',style: tsHeadline1,),
-                Text('12 Августа, 2023', style: tsSubhead1,)
-              ],
-            ),
-            const Expanded(child: SizedBox(width: 1,)),
-            CircleAvatar(child: Image.asset(imgAvatar),),
-          ]
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: SizedBox(
+        height: 42,
+        child: Row(
+            children: [
+              SvgPicture.asset(iconPin),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text('Санкт-Петербург',style: tsHeadline1,),
+                  Text('12 Августа, 2023', style: tsSubhead1,)
+                ],
+              ),
+              const Expanded(child: SizedBox(width: 1,)),
+              CircleAvatar(child: Image.asset(imgAvatar),),
+            ]
+        ),
       ),
     );
   }

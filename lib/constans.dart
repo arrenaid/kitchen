@@ -6,6 +6,12 @@ const TextStyle tsHeadline1 = TextStyle(
   fontWeight: FontWeight.bold,
   color: Colors.black,
 );
+const TextStyle tsHeadline3 = TextStyle(
+  fontSize: 16,
+  //fontFamily: '',
+  color: Colors.white,
+  letterSpacing: 0.1,
+);
 const TextStyle tsSubhead1 = TextStyle(
   fontSize: 14,
   //fontFamily: '',
@@ -29,6 +35,7 @@ const TextStyle tsTab = TextStyle(
 const Color clrBlueActive = Color(0xFF3364E0);
 const Color clrGreyInactive = Color(0xFFA5A9B2);
 const Color clrCounter = Color(0xFFEFEEEC);
+const Color clrBackMeal = Color(0xFFF8F7F5);
 
 const String iconNaviMain = 'assets/icons/home.svg';
 const String iconNaviSearch = 'assets/icons/search-normal.svg';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen/screens/bag_screen.dart';
+import 'package:kitchen/screens/kitchen_screen.dart';
 import 'package:kitchen/screens/main_screen.dart';
 import 'package:kitchen/screens/navi_screen.dart';
 import 'package:kitchen/screens/profile_screen.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         BagScreen.route: (context) => const BagScreen(),
         ProfileScreen.route: (context) => const ProfileScreen(),
         NaviScreen.route: (context) => const NaviScreen(),
-
+        KitchenScreen.route: (context) => const KitchenScreen(),
       },
       initialRoute: NaviScreen.route,
     );
