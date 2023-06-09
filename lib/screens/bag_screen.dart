@@ -21,8 +21,8 @@ class BagScreen extends StatelessWidget {
           child: Column(
             children: [
               LocationWidget(),
-              Container(
-                height: 500,
+              Expanded(
+                //height: 500,
                 child: ListView(
                   children: [
                     CardBag(

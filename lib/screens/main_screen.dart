@@ -16,10 +16,10 @@ class MainScreen extends StatelessWidget {
           child: Column(
             children: [
               const LocationWidget(),
-              Container(
-                height: 500,
-                padding: const EdgeInsets.symmetric(vertical: 4),
+              Expanded(
+                //height: 500,
                 child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
                   children:  [
                     CardCategory(title: 'Пекарни и кондитерские',
                     imageName: imgAvatar,),

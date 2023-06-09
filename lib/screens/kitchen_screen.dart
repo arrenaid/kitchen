@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kitchen/widgets/blue_button.dart';
-
+import 'package:kitchen/screens/meal_screen.dart';
 import '../constans.dart';
 
 class KitchenScreen extends StatelessWidget {
@@ -40,6 +39,15 @@ class KitchenScreen extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
+                    ChoiceChip(label: Text('Все меню',
+                      style: tsSubhead1,),
+                      selected: true, backgroundColor: clrBlueActive,),
+                    ChoiceChip(label: Text('Салаты',
+                      style: tsSubhead1,),
+                      selected: false, ),
+                    ChoiceChip(label: Text('С рисом',
+                      style: tsSubhead1,),
+                      selected: false, backgroundColor: clrGreyInactive,),
                     ChoiceChip(label: Text('Все меню',
                       style: tsSubhead1,),
                       selected: true, backgroundColor: clrBlueActive,),
@@ -117,74 +125,14 @@ class GridMeals extends StatelessWidget {
   Future<String?> buildShowDialog(BuildContext context, String meal) {
     var price = 390;
     var weight = 420;
-    var discription = 'Рыба маринованная со специями, лимонным соком, соевым соусом и запечeнная в духовке с лучком, томатами и картошечкой под золотистой майонезно-сырной шубкой';
+    var description = 'Рыба маринованная со специями, лимонным соком, соевым соусом и запечeнная в духовке с лучком, томатами и картошечкой под золотистой майонезно-сырной шубкой';
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        content: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Container(
-                height: 232,
-                decoration: BoxDecoration(
-                  color: clrBackMeal,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(14),
-                      child: Center(
-                        child: Image.asset(imgAvatar),
-                      ),
-                    ),
-
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  meal,
-                  style: tsHeadline3.copyWith(color: Colors.black),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.topLeft,
-                child: RichText(
-                  text: TextSpan(
-                    text: '$price ₽',
-                    style: tsSubhead1,
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: ' · $weightг',
-                        style: tsSubhead1.copyWith(
-                            color: Colors.black.withOpacity(0.5)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-          Text(
-                    discription,
-                    textAlign: TextAlign.left,
-                    style: tsSubhead1.copyWith(color: Colors.black.withOpacity(0.65)),
-                  ),
-
-              const SizedBox(height: 16),
-              BlueButton( onTap: () => Navigator.pop(context, 'OK'),
-                  title: 'Добавить в корзину')
-            ],
-          ),
-        ),
+        content: MealScreen(description: description, price: price, weight: weight, title: meal, imageName: imgAvatar,),
       ),
     );
   }
