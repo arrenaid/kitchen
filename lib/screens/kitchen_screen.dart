@@ -1,17 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kitchen/models/dishes.dart';
+import 'package:kitchen/models/dishes_response.dart';
 import 'package:kitchen/screens/meal_screen.dart';
 import '../constans.dart';
+import 'package:dio/dio.dart';
+
+import '../service/rest_client.dart';
 
 class KitchenScreen extends StatelessWidget {
   const KitchenScreen({Key? key}) : super(key: key);
   static const String route = "KitchenScreen";
 
+  Future<List<Dishes>> salam() async {
+    final api = RestClient(Dio(BaseOptions(contentType: "application/json")));
+    DishesResponse res = await api.getDishes();
+    return res.dishes;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var listMeals = ['Рис с овощами','Салат по восточному',
-      'Рыба с овощами и рисом','Тортеллини','Зеленый салат','Рулеты из ветчины'
-    ];
+
+    salam();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -41,7 +52,9 @@ class KitchenScreen extends StatelessWidget {
                   children: [
                     ChoiceChip(label: Text('Все меню',
                       style: tsSubhead1,),
-                      selected: true, backgroundColor: clrBlueActive,),
+                      selected: true, backgroundColor: clrBlueActive,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
                     ChoiceChip(label: Text('Салаты',
                       style: tsSubhead1,),
                       selected: false, ),
@@ -62,7 +75,7 @@ class KitchenScreen extends StatelessWidget {
               ),
               //GridMeals
               Expanded(
-                child: GridMeals(listMeals: listMeals),
+                child: GridMeals(dishes: []),
               ),
             ],
 
@@ -76,10 +89,10 @@ class KitchenScreen extends StatelessWidget {
 class GridMeals extends StatelessWidget {
   const GridMeals({
     Key? key,
-    required this.listMeals,
+    required this.dishes,
   }) : super(key: key);
 
-  final List<String> listMeals;
+  final List<Dishes> dishes;
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +103,11 @@ class GridMeals extends StatelessWidget {
           childAspectRatio: 109/144,
           crossAxisSpacing: 1,
           mainAxisSpacing: 1),
-        itemCount: listMeals.length,
+        itemCount: dishes.length,
         itemBuilder: (context, index){
         return GestureDetector(
           onTap: (){
-            buildShowDialog(context, listMeals[index]);
+            buildShowDialog(context, dishes[index]);
           },
           child: Column(
             children: [
@@ -107,12 +120,17 @@ class GridMeals extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(imgAvatar, fit: BoxFit.cover,)),
-              ),
+                  child: FadeInImage.assetNetwork(placeholder: imgAvatar,
+                    width: double.maxFinite,
+                    image: dishes[index].image_url ?? '', fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, trace) => const CircularProgressIndicator(),
+                  ),
+                )
+            ,),
               const SizedBox(height: 5,),
               SizedBox(
                 height: 30,
-                child: Text(listMeals[index], style: tsSubhead1,
+                child: Text(dishes[index].name, style: tsSubhead1,
                   overflow: TextOverflow.fade,),
               )
             ],
@@ -122,7 +140,7 @@ class GridMeals extends StatelessWidget {
     );
   }
 
-  Future<String?> buildShowDialog(BuildContext context, String meal) {
+  Future<String?> buildShowDialog(BuildContext context, Dishes meal) {
     var price = 390;
     var weight = 420;
     var description = 'Рыба маринованная со специями, лимонным соком, соевым соусом и запечeнная в духовке с лучком, томатами и картошечкой под золотистой майонезно-сырной шубкой';
@@ -132,7 +150,7 @@ class GridMeals extends StatelessWidget {
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        content: MealScreen(description: description, price: price, weight: weight, title: meal, imageName: imgAvatar,),
+        content: MealScreen(description: meal.description, price: meal.price, weight: meal.weight, title: meal.name, imageName: meal.image_url ?? '',),
       ),
     );
   }

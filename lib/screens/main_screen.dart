@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitchen/bloc/categories_bloc.dart';
+import 'package:kitchen/models/categories.dart';
 
 import '../constans.dart';
 import '../widgets/location_upper.dart';
@@ -16,21 +19,32 @@ class MainScreen extends StatelessWidget {
           child: Column(
             children: [
               const LocationWidget(),
-              Expanded(
-                //height: 500,
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  children:  [
-                    CardCategory(title: 'Пекарни и кондитерские',
-                    imageName: imgAvatar,),
-                    CardCategory(title: 'Фастфуд',
-                      imageName: imgAvatar,),
-                    CardCategory(title: 'Азиатская кухня',
-                      imageName: imgAvatar,),
-                    CardCategory(title: 'Супы',
-                      imageName: imgAvatar,),
-                  ],
-                ),
+              BlocBuilder<CategoriesBloc,CategoriesState>(
+                builder: (context, state) {
+                  return Expanded(
+                          //height: 500,
+                          child:ListView.builder(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                            itemCount: state.categories.length,
+                              itemBuilder: (context, index){
+                                return  CardCategory(title: state.categories[index].name,
+                                         imageName: state.categories[index].image_url,);
+                              }),
+                          // ListView(
+                          //   padding: const EdgeInsets.symmetric(vertical: 4),
+                          //   children:  [
+                          //     CardCategory(title: 'Пекарни и кондитерские',
+                          //     imageName: imgAvatar,),
+                          //     CardCategory(title: 'Фастфуд',
+                          //       imageName: imgAvatar,),
+                          //     CardCategory(title: 'Азиатская кухня',
+                          //       imageName: imgAvatar,),
+                          //     CardCategory(title: 'Супы',
+                          //       imageName: imgAvatar,),
+                          //   ],
+                          // ),
+                        );
+                }
               )
             ],
           ),
@@ -61,7 +75,12 @@ class CardCategory extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.center,
-                child: Image.asset(imageName, fit: BoxFit.fill,)),
+                child: FadeInImage.assetNetwork(placeholder: imgAvatar,
+                  width: double.maxFinite,
+                  image: imageName, fit: BoxFit.cover,
+                  imageErrorBuilder: (context, error, trace)=> const CircularProgressIndicator(),
+                ),
+            ),//Image.network(imageName, fit: BoxFit.fill,)),
             Padding(
               padding: const EdgeInsets.only(left: 16.0,
                   top: 12.0, right: 136.0),

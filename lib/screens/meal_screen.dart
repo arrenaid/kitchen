@@ -29,7 +29,11 @@ class MealScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(14),
                   child: Center(
-                    child: Image.asset(imageName),
+                    child: FadeInImage.assetNetwork(placeholder: imgAvatar,
+                      width: double.maxFinite,
+                      image: imageName ?? '', fit: BoxFit.cover,
+                      imageErrorBuilder: (context, error, trace) => const CircularProgressIndicator(),
+                    ),
                   ),
                 ),
                 Padding(

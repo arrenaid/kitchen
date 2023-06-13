@@ -98,8 +98,8 @@ class CardBag extends StatelessWidget {
               width: 1,
             )),
             Container(
-              width: 119,
-              height: 32,
+               //width: 99,
+               height: 35,
               decoration: BoxDecoration(
                 color: clrCounter,
                 borderRadius: BorderRadius.circular(10),
@@ -108,27 +108,27 @@ class CardBag extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 33,
-                    child: OutlinedButton(
-                        onPressed: () {},
-                        child: Icon(
-                          Icons.remove,
-                          color: Colors.black,
-                        )),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.remove,
+                        color: Colors.black,
+                        size: 24,
+                      ),
+                    alignment: Alignment.topCenter,
                   ),
                   Text(
                     '$count',
                     style: tsSubhead1,
                   ),
-                  SizedBox(
-                    width: 33,
-                    child: OutlinedButton(
-                        onPressed: () {},
-                        child: Icon(
-                          Icons.add_rounded,
-                          color: Colors.black,
-                        )),
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.add_rounded,
+                        color: Colors.black,
+                        size: 24,
+                      ),
+                    alignment: Alignment.center,
                   ),
                 ],
               ),
