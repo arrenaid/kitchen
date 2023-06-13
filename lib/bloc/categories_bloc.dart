@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kitchen/models/categories.dart';
 import 'package:kitchen/service/rest_client.dart';

@@ -8,6 +8,8 @@ import 'package:kitchen/screens/navi_screen.dart';
 import 'package:kitchen/screens/profile_screen.dart';
 import 'package:kitchen/screens/search_screen.dart';
 
+import 'bloc/bag_bloc.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context)
         => CategoriesBloc(CategoriesState([]))..add(const CategoriesEvent())),
-
+        BlocProvider(create: (context) => BagBloc()),
       ],
       child: MaterialApp(
         title: 'Kitchen',

@@ -1,87 +1,89 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitchen/models/dishes.dart';
-import 'package:kitchen/models/dishes_response.dart';
 import 'package:kitchen/screens/meal_screen.dart';
+import '../bloc/dishes_bloc.dart';
 import '../constans.dart';
-import 'package:dio/dio.dart';
-
-import '../service/rest_client.dart';
 
 class KitchenScreen extends StatelessWidget {
   const KitchenScreen({Key? key}) : super(key: key);
   static const String route = "KitchenScreen";
-
-  Future<List<Dishes>> salam() async {
-    final api = RestClient(Dio(BaseOptions(contentType: "application/json")));
-    DishesResponse res = await api.getDishes();
-    return res.dishes;
+  List<Dishes>sortTag(List<Dishes> dishes, String tag ){
+    List<Dishes> result = [];
+    for(Dishes twin in dishes){
+      if(twin.tegs == tag){
+        result.add(twin);
+      }
+    }
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
-
-    salam();
-
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-          Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0),
-          child: SizedBox(
-            height: 42,
-            child: Row(
-                children: [
-                  IconButton(onPressed: (){}, icon: Icon(CupertinoIcons.back)),
-                  const Expanded(child: SizedBox(width: 1,)),
-                  const Text('Азиатская кухня',style: tsHeadline1,),
-                  const Expanded(child: SizedBox(width: 1,)),
-                  CircleAvatar(child: Image.asset(imgAvatar),),
-                ]
-            ),
-          ),
-        ),
-              //chip
-              SizedBox(
-                height: 35,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    ChoiceChip(label: Text('Все меню',
-                      style: tsSubhead1,),
-                      selected: true, backgroundColor: clrBlueActive,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    return BlocProvider(
+        create: (context) => DishesBloc()..add(const DishesEvent()),
+        child: BlocBuilder<DishesBloc,DishesState>(
+          builder: (context, state) {
+            return Scaffold(
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Column(
+                    children: [
+                  Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: SizedBox(
+                    height: 42,
+                    child: Row(
+                        children: [
+                          IconButton(onPressed: (){},
+                              icon: const Icon(CupertinoIcons.back)),
+                          const Expanded(child: SizedBox(width: 1,)),
+                          const Text('Азиатская кухня',style: tsHeadline1,),
+                          const Expanded(child: SizedBox(width: 1,)),
+                          CircleAvatar(child: Image.asset(imgAvatar),),
+                        ]
                     ),
-                    ChoiceChip(label: Text('Салаты',
-                      style: tsSubhead1,),
-                      selected: false, ),
-                    ChoiceChip(label: Text('С рисом',
-                      style: tsSubhead1,),
-                      selected: false, backgroundColor: clrGreyInactive,),
-                    ChoiceChip(label: Text('Все меню',
-                      style: tsSubhead1,),
-                      selected: true, backgroundColor: clrBlueActive,),
-                    ChoiceChip(label: Text('Салаты',
-                      style: tsSubhead1,),
-                      selected: false, ),
-                    ChoiceChip(label: Text('С рисом',
-                      style: tsSubhead1,),
-                      selected: false, backgroundColor: clrGreyInactive,),
-                  ],
+                  ),
+                ),
+                      //chip
+                      SizedBox(
+                        height: 35,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                            return ChoiceChip(label: Text(state.tags[index]),
+                              labelStyle: tsSubhead1.copyWith(
+                                color: state.activeTag == index
+                                    ? Colors.white: Colors.black,
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              selected: state.activeTag == index,
+                              selectedColor: clrBlueActive,
+                              disabledColor: clrBackMeal,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            );
+                           },
+                           separatorBuilder: (BuildContext context,
+                               int index) => const SizedBox(width: 8,),
+                          itemCount: state.tags.length,
+                        ),
+                      ),
+                      //GridMeals
+                      Expanded(
+                        child: GridMeals(dishes:state.dishes)
+                        //sortTag(state.dishes, state.tags[state.activeTag])),//state.dishes
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              //GridMeals
-              Expanded(
-                child: GridMeals(dishes: []),
-              ),
-            ],
-
-          ),
+            );
+          }
         ),
-      ),
     ) ;
   }
 }
@@ -116,13 +118,13 @@ class GridMeals extends StatelessWidget {
                 height: 110,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.blueAccent[100],
+                  color: clrBackMeal,
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: FadeInImage.assetNetwork(placeholder: imgAvatar,
                     width: double.maxFinite,
-                    image: dishes[index].image_url ?? '', fit: BoxFit.cover,
+                    image: dishes[index].image_url ?? '', fit: BoxFit.contain,
                     imageErrorBuilder: (context, error, trace) => const CircularProgressIndicator(),
                   ),
                 )
@@ -141,16 +143,13 @@ class GridMeals extends StatelessWidget {
   }
 
   Future<String?> buildShowDialog(BuildContext context, Dishes meal) {
-    var price = 390;
-    var weight = 420;
-    var description = 'Рыба маринованная со специями, лимонным соком, соевым соусом и запечeнная в духовке с лучком, томатами и картошечкой под золотистой майонезно-сырной шубкой';
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        content: MealScreen(description: meal.description, price: meal.price, weight: meal.weight, title: meal.name, imageName: meal.image_url ?? '',),
+        content: MealScreen(dishes: meal,),
       ),
     );
   }

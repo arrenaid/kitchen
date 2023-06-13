@@ -1,16 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kitchen/bloc/bag_bloc.dart';
 import '../constans.dart';
+import '../models/dishes.dart';
 import '../widgets/blue_button.dart';
 
 class MealScreen extends StatelessWidget {
-  const MealScreen({Key? key, required this.description,
-    required this.price, required this.weight, required this.title, required this.imageName}) : super(key: key);
-  final String title;
-  final String imageName;
-  final int price ;
-  final int weight;
-  final String description;
+  const MealScreen({Key? key, required this.dishes}) : super(key: key);
+  final Dishes dishes;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class MealScreen extends StatelessWidget {
                   child: Center(
                     child: FadeInImage.assetNetwork(placeholder: imgAvatar,
                       width: double.maxFinite,
-                      image: imageName ?? '', fit: BoxFit.cover,
+                      image: dishes.image_url ?? '', fit: BoxFit.contain,
                       imageErrorBuilder: (context, error, trace) => const CircularProgressIndicator(),
                     ),
                   ),
@@ -73,7 +71,7 @@ class MealScreen extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-              title,
+              dishes.name,
               style: tsHeadline3.copyWith(color: Colors.black),
               textAlign: TextAlign.left,
             ),
@@ -83,11 +81,11 @@ class MealScreen extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: RichText(
               text: TextSpan(
-                text: '$price ₽',
+                text: '${dishes.price} ₽',
                 style: tsSubhead1,
                 children: <TextSpan>[
                   TextSpan(
-                    text: ' · $weightг',
+                    text: ' · ${dishes.weight}г',
                     style: tsSubhead1.copyWith(
                         color: Colors.black.withOpacity(0.5)),
                   ),
@@ -96,15 +94,18 @@ class MealScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            description,
+          Text(dishes.description,
             textAlign: TextAlign.left,
             style: tsSubhead1.copyWith(color: Colors.black.withOpacity(0.65)),
           ),
 
           const SizedBox(height: 16),
-          BlueButton( onTap: () => Navigator.pop(context, 'OK'),
+          BlueButton( onTap: ()  {
+            context.read<BagBloc>().add(AddDishesEvent(dishes));
+            Navigator.pop(context, 'OK');
+            },
               title: 'Добавить в корзину')
+
         ],
       ),
     );
