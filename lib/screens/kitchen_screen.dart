@@ -25,6 +25,13 @@ class KitchenScreen extends StatelessWidget {
         create: (context) => DishesBloc()..add(const DishesEvent()),
         child: BlocBuilder<DishesBloc,DishesState>(
           builder: (context, state) {
+
+            List<Dishes> twin = state.dishes;
+            twin.retainWhere((tag){
+              return tag.tegs.toString().toLowerCase()
+                  .contains(state.tags[state.activeTag].toLowerCase());
+            });
+
             return Scaffold(
               body: SafeArea(
                 child: Padding(
@@ -65,6 +72,9 @@ class KitchenScreen extends StatelessWidget {
                               disabledColor: clrBackMeal,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),
+                              onSelected: (selected){
+                              context.read<DishesBloc>().add(SelectTagEvent(index));
+                              },
                             );
                            },
                            separatorBuilder: (BuildContext context,
@@ -72,9 +82,10 @@ class KitchenScreen extends StatelessWidget {
                           itemCount: state.tags.length,
                         ),
                       ),
+                      const SizedBox(height: 16),
                       //GridMeals
                       Expanded(
-                        child: GridMeals(dishes:state.dishes)
+                        child: GridMeals(dishes: twin)
                         //sortTag(state.dishes, state.tags[state.activeTag])),//state.dishes
                       ),
                     ],
@@ -133,7 +144,8 @@ class GridMeals extends StatelessWidget {
               SizedBox(
                 height: 30,
                 child: Text(dishes[index].name, style: tsSubhead1,
-                  overflow: TextOverflow.fade,),
+                  maxLines: 2,
+                  overflow: TextOverflow.clip,),
               )
             ],
           ),

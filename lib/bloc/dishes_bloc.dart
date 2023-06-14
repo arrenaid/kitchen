@@ -14,11 +14,16 @@ class DishesBloc extends Bloc<DishesEvent,DishesState>{
       activeTag: 0),
   ){
     on<DishesEvent> (_onDishes);
+    on<SelectTagEvent> (_onSelect);
   }
   _onDishes(DishesEvent event, Emitter emit) async {
     final restClient = RestClient(Dio(BaseOptions(contentType: "application/json")));
     DishesResponse response = await restClient.getDishes();
     emit(DishesState(dishes: response.dishes,
         tags: state.tags, activeTag: state.activeTag));
+  }
+  _onSelect(SelectTagEvent event, Emitter emit){
+    emit(DishesState(dishes: state.dishes, tags: state.tags,
+        activeTag: event.index));
   }
 }
