@@ -160,7 +160,7 @@ class GridMeals extends StatelessWidget {
         backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        content: MealScreen(dishes: meal,),
+        content: SizedBox(width: 340, child: MealScreen(dishes: meal,)),
       ),
     );
   }

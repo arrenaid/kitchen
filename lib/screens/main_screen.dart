@@ -55,35 +55,37 @@ class CardCategory extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: GestureDetector(
         onTap: () => context.read<NaviBloc>().add(SwitchNaviEvent(0, title)),
-        child: Container(
-          width: double.infinity,
-          height: 148,
-          decoration: BoxDecoration(
-            color: clrBackMeal,
-           // borderRadius: BorderRadius.circular(20),
-          ),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: FadeInImage.assetNetwork(
-                  placeholder: imgAvatar,
-                  width: double.maxFinite,
-                  image: imageName,
-                  fit: BoxFit.cover,
-                  imageErrorBuilder: (context, error, trace) =>
-                      const CircularProgressIndicator(),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            width: double.infinity,
+            height: 148,
+            decoration: const BoxDecoration(
+              color: clrBackMeal,
+            ),
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: FadeInImage.assetNetwork(
+                    placeholder: imgAvatar,
+                    width: double.maxFinite,
+                    image: imageName,
+                    fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, trace) =>
+                        const CircularProgressIndicator(),
+                  ),
+                ), //Image.network(imageName, fit: BoxFit.fill,)),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 16.0, top: 12.0, right: 136.0),
+                  child: Text(
+                    title,
+                    style: tsMainCard,
+                  ),
                 ),
-              ), //Image.network(imageName, fit: BoxFit.fill,)),
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 16.0, top: 12.0, right: 136.0),
-                child: Text(
-                  title,
-                  style: tsMainCard,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

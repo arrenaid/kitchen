@@ -80,7 +80,10 @@ class CardBag extends StatelessWidget {
             Container(
               height: 62,
               width: 62,
-              color: clrBackMeal,
+              decoration: BoxDecoration(
+                color: clrBackMeal,
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: FadeInImage.assetNetwork(placeholder: imgAvatar,
                 image: dishes.image_url ?? '', fit: BoxFit.contain,
                 imageErrorBuilder: (context, error, trace) => const CircularProgressIndicator(),
@@ -118,13 +121,10 @@ class CardBag extends StatelessWidget {
                 ],
               ),
             ),
-            const Expanded(
-                child: SizedBox(
-              width: 1,
-            )),
+            const Spacer(),
             Container(
-               //width: 99,
-               height: 35,
+               //width: 109,
+               height: 40,//35
               decoration: BoxDecoration(
                 color: clrCounter,
                 borderRadius: BorderRadius.circular(10),
@@ -140,11 +140,12 @@ class CardBag extends StatelessWidget {
                         color: Colors.black,
                         size: 24,
                       ),
-                    alignment: Alignment.topCenter,
+                    style: IconButton.styleFrom(backgroundColor: Colors.redAccent),
+                    alignment: Alignment.center,
                   ),
                   Text(
-                    '${count}',
-                    style: tsSubhead1,
+                    '$count',
+                    style: tsSubhead1.copyWith(fontWeight: FontWeight.bold),
                   ),
                   IconButton(
                       onPressed: () => context.read<BagBloc>().add(AddDishesEvent(dishes)),
@@ -153,6 +154,7 @@ class CardBag extends StatelessWidget {
                         color: Colors.black,
                         size: 24,
                       ),
+                    style: IconButton.styleFrom(backgroundColor: Colors.redAccent),
                     alignment: Alignment.center,
                   ),
                 ],
