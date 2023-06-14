@@ -19,15 +19,33 @@ class LocationWidget extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('Санкт-Петербург',style: tsHeadline1,),
-                  Text('12 Августа, 2023', style: tsSubhead1,)
+                children: [
+                  const Text('Санкт-Петербург',style: tsHeadline1,),
+                  Text('12 Августа, 2023',
+                    style: tsSubhead1.copyWith(color: Colors.black.withOpacity(0.5)),)
                 ],
               ),
               const Expanded(child: SizedBox(width: 1,)),
-              CircleAvatar(child: Image.asset(imgAvatar),),
+              const AvatarButton(),
             ]
         ),
+      ),
+    );
+  }
+}
+
+class AvatarButton extends StatelessWidget {
+  const AvatarButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){},
+      child: CircleAvatar(
+        radius: 22,
+        child: Image.asset(imgAvatar),
       ),
     );
   }

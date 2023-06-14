@@ -72,7 +72,7 @@ class MealScreen extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Text(
               dishes.name,
-              style: tsHeadline3.copyWith(color: Colors.black),
+              style: tsHeadline2,
               textAlign: TextAlign.left,
             ),
           ),

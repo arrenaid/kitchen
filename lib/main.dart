@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           BagScreen.route: (context) => const BagScreen(),
           ProfileScreen.route: (context) => const ProfileScreen(),
           NaviScreen.route: (context) => const NaviScreen(),
-          KitchenScreen.route: (context) => const KitchenScreen(),
+          KitchenScreen.route: (context) => KitchenScreen(title: '',),
         },
         initialRoute: NaviScreen.route,
       ),

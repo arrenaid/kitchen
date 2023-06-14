@@ -2,32 +2,41 @@ import 'package:flutter/material.dart';
 
 const TextStyle tsHeadline1 = TextStyle(
   fontSize: 18,
-  //fontFamily: '',
+  fontFamily: 'SF-pro',
   fontWeight: FontWeight.bold,
   color: Colors.black,
 );
 const TextStyle tsHeadline3 = TextStyle(
   fontSize: 16,
-  //fontFamily: '',
+  fontFamily: 'SF-pro',
+  fontWeight: FontWeight.bold,
   color: Colors.white,
   letterSpacing: 0.1,
 );
+const TextStyle tsHeadline2 = TextStyle(
+  fontSize: 16,
+  fontFamily: 'SF-pro',
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+  letterSpacing: 1,
+);
 const TextStyle tsSubhead1 = TextStyle(
   fontSize: 14,
-  //fontFamily: '',
+  fontFamily: 'SF-pro',
   color: Colors.black,
   letterSpacing: 1,
 );
 const TextStyle tsMainCard = TextStyle(
   fontSize: 20,
-  //fontFamily: '',
+  fontFamily: 'SF-pro',
+  fontWeight: FontWeight.bold,
   color: Colors.black,
   letterSpacing: 1,
 );
 const TextStyle tsTab = TextStyle(
   fontSize: 10,
-  //fontFamily: '',
-  fontWeight: FontWeight.normal,
+  fontFamily: 'SF-pro',
+  fontWeight: FontWeight.bold,
   color: Colors.black,
   letterSpacing: 1,
 );

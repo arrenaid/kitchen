@@ -13,9 +13,14 @@ class CategoriesBloc extends Bloc<CategoriesEvent,CategoriesState>{
     on<CategoriesEvent> (_getCategory);
   }
    _getCategory(CategoriesEvent event, Emitter emit) async {
-    final restClient = RestClient(Dio(BaseOptions(contentType: "application/json")));
-    List<Categories> result;
-    result = (await restClient.getCategories()).categories;
-    emit(CategoriesState(result));
+    try {
+      final restClient = RestClient(
+          Dio(BaseOptions(contentType: "application/json")));
+      List<Categories> result;
+      result = (await restClient.getCategories()).categories;
+      emit(CategoriesState(result));
+    }catch(e){
+      addError(e);
+    }
   }
 }

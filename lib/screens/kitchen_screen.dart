@@ -3,21 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kitchen/models/dishes.dart';
 import 'package:kitchen/screens/meal_screen.dart';
+import 'package:kitchen/widgets/location_upper.dart';
 import '../bloc/dishes_bloc.dart';
+import '../bloc/navi_bloc.dart';
 import '../constans.dart';
 
 class KitchenScreen extends StatelessWidget {
-  const KitchenScreen({Key? key}) : super(key: key);
+  KitchenScreen({Key? key, required this.title}) : super(key: key);
   static const String route = "KitchenScreen";
-  List<Dishes>sortTag(List<Dishes> dishes, String tag ){
-    List<Dishes> result = [];
-    for(Dishes twin in dishes){
-      if(twin.tegs == tag){
-        result.add(twin);
-      }
-    }
-    return result;
-  }
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +38,13 @@ class KitchenScreen extends StatelessWidget {
                     height: 42,
                     child: Row(
                         children: [
-                          IconButton(onPressed: (){},
+                          IconButton(onPressed: ()
+                          => context.read<NaviBloc>().add(SwitchNaviEvent(0,'')),
                               icon: const Icon(CupertinoIcons.back)),
                           const Expanded(child: SizedBox(width: 1,)),
-                          const Text('Азиатская кухня',style: tsHeadline1,),
+                          Text(title, style: tsHeadline1,),
                           const Expanded(child: SizedBox(width: 1,)),
-                          CircleAvatar(child: Image.asset(imgAvatar),),
+                          const AvatarButton(),
                         ]
                     ),
                   ),
@@ -57,29 +52,33 @@ class KitchenScreen extends StatelessWidget {
                       //chip
                       SizedBox(
                         height: 35,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                            return ChoiceChip(label: Text(state.tags[index]),
-                              labelStyle: tsSubhead1.copyWith(
-                                color: state.activeTag == index
-                                    ? Colors.white: Colors.black,
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              selected: state.activeTag == index,
-                              selectedColor: clrBlueActive,
-                              disabledColor: clrBackMeal,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              onSelected: (selected){
-                              context.read<DishesBloc>().add(SelectTagEvent(index));
-                              },
-                            );
-                           },
-                           separatorBuilder: (BuildContext context,
-                               int index) => const SizedBox(width: 8,),
-                          itemCount: state.tags.length,
+                        child: OverflowBox(
+                          maxWidth: MediaQuery.of(context).size.width,
+                          child: ListView.separated(
+                            padding: const EdgeInsets.only(left: 16),
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                              itemBuilder: (BuildContext context, int index) {
+                              return ChoiceChip(label: Text(state.tags[index]),
+                                labelStyle: tsSubhead1.copyWith(
+                                  color: state.activeTag == index
+                                      ? Colors.white: Colors.black,
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                selected: state.activeTag == index,
+                                selectedColor: clrBlueActive,
+                                disabledColor: clrBackMeal,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                onSelected: (selected){
+                                context.read<DishesBloc>().add(SelectTagEvent(index));
+                                },
+                              );
+                             },
+                             separatorBuilder: (BuildContext context,
+                                 int index) => const SizedBox(width: 8,),
+                            itemCount: state.tags.length,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),

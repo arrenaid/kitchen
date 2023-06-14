@@ -8,3 +8,9 @@ class NaviEvent extends Equatable {
   @override
   List<Object?> get props => [index];
 }
+class SwitchNaviEvent extends NaviEvent{
+  final String title;
+  SwitchNaviEvent(super.index, this.title);
+  @override
+  List<Object?> get props => [title];
+}

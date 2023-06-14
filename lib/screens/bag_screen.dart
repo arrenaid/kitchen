@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kitchen/bloc/bag_bloc.dart';
 import 'package:kitchen/widgets/blue_button.dart';
 import 'package:kitchen/widgets/location_upper.dart';
@@ -29,7 +30,17 @@ class BagScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  LocationWidget(),
+                  const LocationWidget(),
+                  if( bag.isEmpty)...[
+                    Expanded(
+                      child: Center(
+                        child: SvgPicture.asset(iconNaviBag,
+                          color: clrGreyInactive,
+                          height: 50,),
+                      ),
+                    ),
+                    ],
+                    if( bag.isNotEmpty)...[
                   Expanded(
                     child: ListView.builder(
                       itemCount: bag.length,
@@ -37,10 +48,11 @@ class BagScreen extends StatelessWidget {
                         return CardBag(dishes: bag.elementAt(index), count: bagCount[index]);
                       },
                     ),
-                  ),
+                  ),],
                   BlueButton(
                       onTap: () {},
                       title: 'Оплатить ${state.amount} ₽'),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -61,13 +73,14 @@ class CardBag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Container(
+      child: SizedBox(
         height: 62,
         child: Row(
           children: [
-            SizedBox(
+            Container(
               height: 62,
               width: 62,
+              color: clrBackMeal,
               child: FadeInImage.assetNetwork(placeholder: imgAvatar,
                 image: dishes.image_url ?? '', fit: BoxFit.contain,
                 imageErrorBuilder: (context, error, trace) => const CircularProgressIndicator(),
