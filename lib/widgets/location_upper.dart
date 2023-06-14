@@ -15,7 +15,12 @@ class LocationWidget extends StatelessWidget {
         height: 42,
         child: Row(
             children: [
-              SvgPicture.asset(iconPin),
+              Column(
+                children: [
+                  SvgPicture.asset(iconPin),
+                  const SizedBox(height: 5),
+                ],
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
